@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo
+        image: nginx:1.27.3
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENV1
+          value: "Value for env 1"
+        - name: ENV2
+          value: "Value for env 2"
+        - name: ENV3
+          valueFrom:
+            configMapKeyRef:
+              name: demo
+              key: property-from-config-map
+        - name: ENV4
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username

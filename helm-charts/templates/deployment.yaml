@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      volumes:
+      - name: secret-volume-with-credentials
+        secret:
+          secretName: dotfile-secret
+      containers:
+      - name: demo
+        image: nginx:1.27.3
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}        
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENV1
+          value: {{ .Values.env1 }}
+        - name: ENV2
+          value: {{ .Values.env2 }}
+        - name: ENV3
+          valueFrom:
+            configMapKeyRef:
+              name: demo
+              key: property-from-config-map
+        - name: USERNAME_IN_ENV
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+        - name: PASSWORD_IN_ENV
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password    
+        volumeMounts:
+        - name: secret-volume-with-credentials
+          readOnly: true
+          mountPath: "/etc/secret-volume-with-credentials"

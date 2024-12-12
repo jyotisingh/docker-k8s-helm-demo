@@ -1,0 +1,19 @@
+# Default values for helm-charts.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 3
+username: jyoti
+password: top-secret
+env1: "Value for env 1 on prod"
+env2: "Value for env 2 on prod"
+property-from-config-map: "value-of-property-from-config-map on prod"
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
