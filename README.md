@@ -1,12 +1,17 @@
-minikube addons enable ingress
+# Training material for Docker, Kubernetes and Helm charts
 
-Rancher desktop with containerd
-Deploy the NGINX ingress controller: helm upgrade --install ingress-nginx ingress-nginx \
+## Ingress controller setup in Rancher (using Rancher desktop with containerd)
+Deploy the NGINX ingress controller: 
+```
+helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx --create-namespace
-check pods running: kubectl get pods --namespace=ingress-nginx
+```
+check its up and running: 
+```
+kubectl get pods --namespace=ingress-nginx
+```
 
-secrets: echo -n 'top-secret' | openssl base64
 kubectl exec <pod> -- env
 
 kubectl create deployment pmt --image=nginx:1.14.2
